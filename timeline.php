@@ -1,4 +1,6 @@
-<?php require_once("auth.php"); ?>
+<?php require_once("auth.php"); 
+print_r($_SESSION["user"]);
+?>
 
 
 <!DOCTYPE html>
