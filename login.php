@@ -7,9 +7,7 @@ if(isset($_POST['login'])){
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
     
-    if( isset($_POST['remember'])){
-        setcookie('username', $username, time()+60*60**7);
-    }
+
 
     $sql = "SELECT * FROM users WHERE username=:username OR email=:email";
     $stmt = $db->prepare($sql);
@@ -29,6 +27,12 @@ if(isset($_POST['login'])){
         // verifikasi password
         if(password_verify($password, $user["password"])){
             // buat Session
+            if(isset($_POST["remember"])){
+                //buat coookie
+                //setcookie('login', 'true', time()+ 60);
+                setcookie('id', $user['id'], time()+36000);
+                setcookie('key', hash('sha256',$row['username']), time()+36000);
+              }
             session_start();
             $_SESSION["user"] = $user;
             // login sukses, alihkan ke halaman timeline
